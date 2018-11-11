@@ -1,0 +1,36 @@
+name:                wego
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/githubuser/wego#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Author name here
+maintainer:          example@example.com
+copyright:           2018 Author name here
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     WEGO
+  other-modules:       WEGO.Types
+                     , WEGO.Client
+                     , WEGO.Server
+                     , WEGO.Server.Controller
+                     , WEGO.Server.Model
+                     , WEGO.Server.View
+
+  build-depends:       base >= 4.7 && < 5
+                     , bytestring
+                     , mtl
+                     , mvc
+                     , network-simple
+                     , stm
+                     , lens
+
+  default-language:    Haskell2010
+
