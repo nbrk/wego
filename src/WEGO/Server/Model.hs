@@ -29,7 +29,7 @@ makePrisms ''Outputs
 
 
 externalSocketsDefault :: Serializable a => Managed (View (Outputs a), Controller (Inputs a))
-externalSocketsDefault = externalSockets (Host "127.0.0.1") ("20000", "30000")
+externalSocketsDefault = externalSockets HostAny ("20000", "30000")
 
 
 -- | TCP sockets view-controller pair
@@ -90,7 +90,7 @@ model = asPipe $ forever $ do
   case inp of
     InputsBigPatchRequest () -> do
       dat <- get
-      let pat = diff WEGO.Types.empty dat
+      let pat = diff initial dat
       yield $ OutputsBigPatch pat
     InputsPatch pat -> do
       dat <- get

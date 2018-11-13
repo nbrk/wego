@@ -35,5 +35,5 @@ class SimulationState d where
   simulate :: Endo d
 
   -- | Empty (the default) instantiation
-  empty :: d
+  initial :: d
 

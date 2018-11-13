@@ -1,6 +1,7 @@
 module WEGO
   ( module WEGO.Types
   , runServer
+  , runServerDefault
   , spawnClient
   , HostPreference(..)
   )

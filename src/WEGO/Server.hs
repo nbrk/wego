@@ -9,8 +9,8 @@ import           Network.Simple.TCP
 
 
 -- -- | Run the server with default host/ports
--- runServer s0 =
---   runMVC s0 model externalSocketsDefault
+runServerDefault s0 =
+  runMVC s0 model externalSocketsDefault
 
 
 -- | Run the server on specified host and control/view ports

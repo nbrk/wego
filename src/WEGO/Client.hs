@@ -19,7 +19,7 @@ spawnClientControl host port = do
 
   forkIO $ connect host port $
     \(sock, remote) -> do
-      forkIO $ printf "WEGO control stream to %s:%s\n" host port
+--      forkIO $ printf "WEGO control stream to %s:%s\n" host port
       forever $ do
         pat <- atomically $ readTChan chan
         Network.Simple.TCP.sendLazy sock (encode pat)
@@ -34,7 +34,7 @@ spawnClientView host port = do
 
   forkIO $ connect host port $
     \(sock, remote) -> do
-      forkIO $ printf "WEGO view stream to %s:%s\n" host port
+--      forkIO $ printf "WEGO view stream to %s:%s\n" host port
       forever $ do
         mbdat <- Network.Simple.TCP.recv sock 4096
         unless (isNothing mbdat) $ do
@@ -42,16 +42,19 @@ spawnClientView host port = do
           case mbpat of
             Just pat -> atomically $ writeTChan chan pat
             Nothing  ->
-              printf "Garbage data from %s: %s\n"
-              (show remote) (show mbdat)
+  --            printf "Garbage data from %s: %s\n"
+  --            (show remote) (show mbdat)
+              return ()
 
   return chan
 
 
-spawnClient :: Serializable dt => HostName -> (ServiceName, ServiceName) -> IO (TChan dt, TChan dt)
-spawnClient host (ctrlport, viewport) = do
+spawnClient' :: Serializable dt => HostName -> (ServiceName, ServiceName) -> IO (TChan dt, TChan dt)
+spawnClient' host (ctrlport, viewport) = do
   ctrlchan <- spawnClientControl host ctrlport
   viewchan <- spawnClientView host viewport
   return (ctrlchan, viewchan)
 
 
+spawnClient :: Serializable dt => String -> (Int, Int) -> IO (TChan dt, TChan dt)
+spawnClient h (cp, vp) = spawnClient' h (show cp, show vp)
